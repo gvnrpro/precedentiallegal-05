@@ -77,10 +77,10 @@ const WhyUs = () => {
                 }`}></div>
               )}
               
-              {/* Number badge */}
-              <div className={`inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-6 md:mb-8 ${
+              {/* Number badge with hover animation */}
+              <div className={`value-icon-hover inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-6 md:mb-8 ${
                 index % 2 === 0 ? 'md:ml-0' : 'md:ml-auto'
-              } bg-gradient-to-br from-accent-brand to-accent-purple text-white rounded-2xl font-bold text-xl md:text-2xl breathing touch-target`}>
+              } bg-gradient-to-br from-accent-brand to-accent-purple text-white rounded-2xl font-bold text-xl md:text-2xl breathing touch-target tap-feedback cursor-pointer`}>
                 {item.number}
               </div>
               

@@ -54,6 +54,9 @@ export default {
 					DEFAULT: 'hsl(var(--accent-purple))',
 					hover: 'hsl(var(--accent-purple-hover))'
 				},
+				'accent-gold': {
+					DEFAULT: 'hsl(var(--accent-gold))'
+				},
 				'brand-navy': {
 					DEFAULT: 'hsl(var(--brand-navy))'
 				},

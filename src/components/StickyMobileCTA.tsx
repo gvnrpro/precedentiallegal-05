@@ -5,49 +5,45 @@ import { Phone, X } from "lucide-react"
 const StickyMobileCTA = () => {
   const [isVisible, setIsVisible] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
+  const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('down')
+  const [lastScrollY, setLastScrollY] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show after scrolling 100px
-      setIsVisible(window.scrollY > 100)
+      const currentScrollY = window.scrollY
+      
+      // Determine scroll direction
+      if (currentScrollY > lastScrollY) {
+        setScrollDirection('down')
+      } else {
+        setScrollDirection('up')
+      }
+      setLastScrollY(currentScrollY)
+      
+      // Show after scrolling 100px and scrolling down
+      setIsVisible(currentScrollY > 100 && scrollDirection === 'down')
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [lastScrollY, scrollDirection])
 
   if (!isVisible) return null
 
   return (
     <div className={`fixed bottom-4 left-4 right-4 z-50 md:hidden transition-all duration-300 ${
-      isMinimized ? 'translate-y-0' : 'translate-y-0'
+      isVisible && scrollDirection === 'down' ? 'sticky-cta-show' : 'translate-y-full'
     }`}>
       {!isMinimized ? (
-        <div className="glass rounded-premium-lg p-4 shadow-hover border border-white/20">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <Phone className="w-4 h-4 text-accent-brand" />
-              <span className="font-heading font-semibold text-sm text-foreground">
-                Ready to get started?
-              </span>
-            </div>
-            <button
-              onClick={() => setIsMinimized(true)}
-              className="text-muted-foreground hover:text-foreground p-1"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-          <div className="grid grid-cols-1 gap-2">
-            <Button size="sm" className="text-xs">
-              Get started today
-            </Button>
-          </div>
+        <div className="glass rounded-lg p-3 shadow-hover border border-white/20">
+          <Button size="sm" className="w-full tap-feedback text-xs">
+            Get started today
+          </Button>
         </div>
       ) : (
         <button
           onClick={() => setIsMinimized(false)}
-          className="glass rounded-full p-3 shadow-medium ml-auto block border border-white/20"
+          className="glass rounded-full p-3 shadow-medium ml-auto block border border-white/20 tap-feedback"
         >
           <Phone className="w-5 h-5 text-accent-brand" />
         </button>

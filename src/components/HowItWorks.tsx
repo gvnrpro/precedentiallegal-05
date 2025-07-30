@@ -47,24 +47,34 @@ const AnimatedPath = ({ isVisible }: { isVisible: boolean }) => {
 
 const HowItWorks = () => {
   const [isVisible, setIsVisible] = useState(false)
+  const [visibleSteps, setVisibleSteps] = useState<number[]>([])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsVisible(true)
+            const stepIndex = parseInt(entry.target.getAttribute('data-step') || '0')
+            if (stepIndex >= 0) {
+              setVisibleSteps(prev => [...prev, stepIndex])
+            } else {
+              setIsVisible(true)
+            }
           }
         })
       },
-      { threshold: 0.3 }
+      { threshold: 0.25 }
     )
 
     const element = document.getElementById('how-it-works')
     if (element) observer.observe(element)
 
+    const stepElements = document.querySelectorAll('.step-trigger')
+    stepElements.forEach(el => observer.observe(el))
+
     return () => {
       if (element) observer.unobserve(element)
+      stepElements.forEach(el => observer.unobserve(el))
     }
   }, [])
 
@@ -87,26 +97,38 @@ const HowItWorks = () => {
               return (
                 <div 
                   key={index} 
-                  className={`relative text-center lg:text-left group ${
-                    isVisible ? 'animate-fade-in' : 'opacity-0'
-                  }`}
-                  style={{
-                    animationDelay: `${index * 0.3}s`
-                  }}
+                  data-step={index}
+                  className="step-trigger relative text-center lg:text-left group"
                 >
                   {/* Step connector for mobile */}
                   {index < steps.length - 1 && (
                     <div className="lg:hidden absolute left-1/2 transform -translate-x-1/2 top-20 w-px h-16 bg-gradient-to-b from-accent-brand/50 to-accent-purple/50"></div>
                   )}
                   
-                   {/* Icon container with breathing animation */}
+                   {/* Icon container with enhanced animations */}
                    <div className="relative mb-6 md:mb-8">
-                     <div className="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-br from-accent-brand to-accent-purple text-white rounded-full font-bold text-xs shadow-lg magnetic-hover breathing touch-target group-hover:scale-110 transition-transform duration-300" style={{width: '24px', height: '24px'}}>
+                     <div 
+                       className={`inline-flex items-center justify-center w-6 h-6 bg-gradient-to-br from-accent-brand to-accent-purple text-white rounded-full font-bold text-xs shadow-lg touch-target ${
+                         visibleSteps.includes(index) ? 'step-number' : 'opacity-30'
+                       }`} 
+                       style={{
+                         width: '24px', 
+                         height: '24px',
+                         animationDelay: `${index * 0.2}s`
+                       }}
+                     >
                        <span className="font-bold">{index + 1}</span>
                      </div>
                    </div>
                   
-                  <div className="space-y-3 md:space-y-4">
+                  <div 
+                    className={`space-y-3 md:space-y-4 ${
+                      visibleSteps.includes(index) ? 'step-text' : 'opacity-30'
+                    }`}
+                    style={{
+                      animationDelay: `${index * 0.2 + 0.1}s`
+                    }}
+                  >
                     <h3 className="font-heading text-lg md:text-xl lg:text-2xl font-semibold text-foreground">
                       {step.title}
                     </h3>
