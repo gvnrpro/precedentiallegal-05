@@ -1,28 +1,35 @@
-import { Send, Sparkles, RotateCcw, FileCheck } from "lucide-react"
-import { useEffect, useState } from 'react'
+'use client';
+
+import { useEffect, useState } from 'react';
+import {
+  Send,
+  Sparkles,
+  FileCheck,
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const steps = [
   {
     icon: Send,
     title: "Submit your request",
-    description: "Send us your legal needs through our simple platform"
+    description: "Send us your legal needs through our simple platform.",
   },
   {
     icon: Sparkles,
-    title: "We assign a lawyer", 
-    description: "Our team matches you with the right legal expert for your needs"
+    title: "We assign a lawyer",
+    description: "Our team matches you with the right legal expert for your needs.",
   },
   {
     icon: FileCheck,
     title: "Get your docs",
-    description: "Receive your polished legal work delivered on time"
-  }
-]
+    description: "Receive your polished legal work delivered on time.",
+  },
+];
 
 const AnimatedPath = ({ isVisible }: { isVisible: boolean }) => {
   return (
-    <svg 
-      className="absolute inset-0 w-full h-full pointer-events-none hidden lg:block" 
+    <svg
+      className="absolute inset-0 w-full h-full pointer-events-none hidden lg:block"
       viewBox="0 0 1200 200"
       preserveAspectRatio="none"
     >
@@ -42,108 +49,85 @@ const AnimatedPath = ({ isVisible }: { isVisible: boolean }) => {
         </linearGradient>
       </defs>
     </svg>
-  )
-}
+  );
+};
 
 const HowItWorks = () => {
-  const [isVisible, setIsVisible] = useState(false)
-  const [visibleSteps, setVisibleSteps] = useState<number[]>([])
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const el = document.getElementById("how-it-works");
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const stepIndex = parseInt(entry.target.getAttribute('data-step') || '0')
-            if (stepIndex >= 0) {
-              setVisibleSteps(prev => [...prev, stepIndex])
-            } else {
-              setIsVisible(true)
-            }
-          }
-        })
-      },
-      { threshold: 0.25 }
-    )
-
-    const element = document.getElementById('how-it-works')
-    if (element) observer.observe(element)
-
-    const stepElements = document.querySelectorAll('.step-trigger')
-    stepElements.forEach(el => observer.observe(el))
-
-    return () => {
-      if (element) observer.unobserve(element)
-      stepElements.forEach(el => observer.unobserve(el))
-    }
-  }, [])
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    if (el) observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section id="how-it-works" className="py-12 md:py-24 bg-muted relative overflow-hidden">
+    <section
+      id="how-it-works"
+      className="relative py-16 md:py-24 bg-muted overflow-hidden"
+    >
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12 md:mb-20">
-          <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 md:mb-8">
+        <div className="text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            viewport={{ once: true }}
+            className="font-heading text-4xl md:text-5xl font-bold text-foreground"
+          >
             How It Works
-          </h2>
+          </motion.h2>
         </div>
-        
-        {/* Mobile: Stack layout, Desktop: Connected flow */}
+
         <div className="relative max-w-6xl mx-auto">
           <AnimatedPath isVisible={isVisible} />
-          
-          <div className="grid gap-8 md:gap-12 lg:grid-cols-3 lg:gap-8">
+
+          <div className="grid gap-10 md:gap-16 lg:grid-cols-3 items-start text-center lg:text-left">
             {steps.map((step, index) => {
-              const Icon = step.icon
+              const Icon = step.icon;
+
               return (
-                <div 
-                  key={index} 
-                  data-step={index}
-                  className="step-trigger relative text-center lg:text-left group"
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.15, duration: 0.5 }}
+                  viewport={{ once: true }}
+                  className="relative flex flex-col items-center lg:items-start"
                 >
-                  {/* Step connector for mobile */}
+                  {/* Mobile vertical line connector */}
                   {index < steps.length - 1 && (
-                    <div className="lg:hidden absolute left-1/2 transform -translate-x-1/2 top-20 w-px h-16 bg-gradient-to-b from-accent-brand/50 to-accent-purple/50"></div>
+                    <div className="lg:hidden absolute left-1/2 transform -translate-x-1/2 top-[72px] w-px h-16 bg-gradient-to-b from-accent-brand/40 to-accent-purple/40" />
                   )}
-                  
-                   {/* Icon container with enhanced animations */}
-                   <div className="relative mb-6 md:mb-8">
-                     <div 
-                       className={`inline-flex items-center justify-center w-6 h-6 bg-gradient-to-br from-accent-brand to-accent-purple text-white rounded-full font-bold text-xs shadow-lg touch-target ${
-                         visibleSteps.includes(index) ? 'step-number' : 'opacity-30'
-                       }`} 
-                       style={{
-                         width: '24px', 
-                         height: '24px',
-                         animationDelay: `${index * 0.2}s`
-                       }}
-                     >
-                       <span className="font-bold">{index + 1}</span>
-                     </div>
-                   </div>
-                  
-                  <div 
-                    className={`space-y-3 md:space-y-4 ${
-                      visibleSteps.includes(index) ? 'step-text' : 'opacity-30'
-                    }`}
-                    style={{
-                      animationDelay: `${index * 0.2 + 0.1}s`
-                    }}
-                  >
-                    <h3 className="font-heading text-lg md:text-xl lg:text-2xl font-semibold text-foreground">
+
+                  {/* Step icon */}
+                  <div className="mb-6">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent-brand to-accent-purple text-white flex items-center justify-center shadow-md">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                  </div>
+
+                  {/* Step title + description */}
+                  <div className="space-y-2 md:space-y-3 max-w-sm">
+                    <h3 className="font-heading text-xl md:text-2xl font-semibold text-foreground">
                       {step.title}
                     </h3>
-                    <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed">
+                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
                       {step.description}
                     </p>
                   </div>
-                </div>
-              )
+                </motion.div>
+              );
             })}
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default HowItWorks
+export default HowItWorks;
