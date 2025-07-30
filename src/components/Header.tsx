@@ -1,47 +1,71 @@
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/custom-button";
 import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/custom-button";
+import { motion, AnimatePresence } from "framer-motion";
+import clsx from "clsx";
+
+const navLinks = [
+  { id: "why-us", label: "Why Us" },
+  { id: "how-it-works", label: "How It Works" },
+  { id: "scope", label: "Scope" },
+  { id: "pricing", label: "Pricing" },
+];
+
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Debounce scroll handler
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        setIsScrolled(window.scrollY > 20);
+      }, 100);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth'
-      });
+      element.scrollIntoView({ behavior: "smooth" });
     }
     setIsMobileMenuOpen(false);
   };
-  return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-background/80 backdrop-blur-md border-b border-border/20' : 'bg-transparent'}`}>
+
+  return (
+    <header
+      className={clsx(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isScrolled
+          ? "bg-background/80 backdrop-blur-md border-b border-border/20 shadow-sm"
+          : "bg-transparent"
+      )}
+    >
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex items-center">
-            <span className="font-heading text-2xl text-foreground text-left font-semibold">Precedential.legal</span>
+          <div className="text-2xl font-semibold text-foreground font-heading">
+            Precedential.legal
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <button onClick={() => scrollToSection('why-us')} className="font-body text-foreground hover:text-accent-brand transition-colors">
-              Why Us
-            </button>
-            <button onClick={() => scrollToSection('how-it-works')} className="font-body text-foreground hover:text-accent-brand transition-colors">
-              How It Works
-            </button>
-            <button onClick={() => scrollToSection('scope')} className="font-body text-foreground hover:text-accent-brand transition-colors">
-              Scope
-            </button>
-            <button onClick={() => scrollToSection('pricing')} className="font-body text-foreground hover:text-accent-brand transition-colors">
-              Pricing
-            </button>
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex space-x-8">
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollToSection(link.id)}
+                className="text-foreground font-medium hover:text-accent-brand transition-colors"
+              >
+                {link.label}
+              </button>
+            ))}
           </nav>
 
           {/* Desktop CTA */}
@@ -51,35 +75,48 @@ const Header = () => {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden p-2 text-foreground hover:text-accent-brand transition-colors">
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 text-foreground hover:text-accent-brand transition-colors"
+            aria-label="Toggle mobile menu"
+          >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border/20">
-            <nav className="flex flex-col space-y-4 p-6">
-              <button onClick={() => scrollToSection('why-us')} className="font-body text-foreground hover:text-accent-brand transition-colors text-left">
-                Why Us
-              </button>
-              <button onClick={() => scrollToSection('how-it-works')} className="font-body text-foreground hover:text-accent-brand transition-colors text-left">
-                How It Works
-              </button>
-              <button onClick={() => scrollToSection('scope')} className="font-body text-foreground hover:text-accent-brand transition-colors text-left">
-                Scope
-              </button>
-              <button onClick={() => scrollToSection('pricing')} className="font-body text-foreground hover:text-accent-brand transition-colors text-left">
-                Pricing
-              </button>
-              <div className="pt-4">
-                <Button size="default" variant="primary" className="w-full">
-                  Get Started
-                </Button>
-              </div>
-            </nav>
-          </div>}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border/20"
+            >
+              <nav className="flex flex-col p-6 space-y-4">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.id}
+                    onClick={() => scrollToSection(link.id)}
+                    className="text-left text-foreground font-medium hover:text-accent-brand transition-colors"
+                  >
+                    {link.label}
+                  </button>
+                ))}
+                <div className="pt-4">
+                  <Button size="default" variant="primary" className="w-full">
+                    Get Started
+                  </Button>
+                </div>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </header>;
+    </header>
+  );
 };
+
 export default Header;
