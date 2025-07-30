@@ -10,7 +10,7 @@ const Footer = () => {
               Precedential.Legal
             </div>
             <p className="font-body text-muted-foreground">
-              Modern legal support for growing businesses
+              Legal help, sorted.
             </p>
           </div>
           

@@ -3,18 +3,18 @@ import { useEffect, useState } from 'react'
 const items = [
   {
     number: "01",
-    title: "More affordable than an in-house legal team",
-    description: "Enjoy the benefits of on-demand legal support at a fraction of the cost of hiring your own in-house legal team."
+    title: "No hourly billing. No retainers. Just expert legal help when you need it.",
+    description: "Get unlimited access to legal support without the uncertainty of hourly billing or large upfront retainer fees."
   },
   {
     number: "02", 
-    title: "Immediate access to top-quality legal advice",
-    description: "No more worrying about your lawyer's level of experience. With us, rest assured that your work will always be overseen by senior lawyers."
+    title: "More affordable than an in-house legal team.",
+    description: "Enjoy the benefits of expert legal counsel at a fraction of the cost of hiring your own in-house legal team."
   },
   {
     number: "03",
-    title: "Monthly fee without the uncertainty of hourly billing", 
-    description: "Traditionally lawyers bill per hour, leaving clients with uncertainty on costs and time. With our fixed monthly fee, stick to your budget and put your mind at ease."
+    title: "Trusted by 1,000+ businesses.", 
+    description: "Join the growing number of businesses that have simplified their legal support with our proven subscription model."
   }
 ]
 

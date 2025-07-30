@@ -15,9 +15,12 @@
     --primary-foreground: 220 30% 7%;
     --primary-hover: 210 25% 92%; /* Slightly lighter for hover */
     
-    /* Accent Colors - Bright Blue with Gradient */
-    --accent-brand: 199 89% 48%; /* #38BDF8 - Bright blue */
-    --accent-brand-hover: 199 89% 42%; /* Darker blue for hover */
+    /* Accent Colors - Eleven.Legal Blue */
+    --accent-brand: 213 37% 47%; /* #4A6FA5 - Eleven.Legal blue */
+    --accent-brand-hover: 213 37% 42%; /* Darker blue for hover */
+    
+    /* Eleven.Legal Text Color */
+    --eleven-text: 217 19% 20%; /* #2D3748 - Dark gray text */
     
     /* Brand Navy (fixing missing color) */
     --brand-navy: 220 30% 7%; /* Same as background for contrast */

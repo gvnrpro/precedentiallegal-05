@@ -38,12 +38,9 @@ const StickyMobileCTA = () => {
               <X className="w-4 h-4" />
             </button>
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2">
             <Button size="sm" className="text-xs">
-              Subscribe Now
-            </Button>
-            <Button variant="outline" size="sm" className="text-xs">
-              Book a Call
+              Get started today
             </Button>
           </div>
         </div>

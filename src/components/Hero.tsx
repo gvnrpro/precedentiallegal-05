@@ -15,24 +15,20 @@ const Hero = () => {
         <div className="grid gap-8 md:gap-12 lg:grid-cols-2 lg:gap-16 items-center max-w-7xl mx-auto">
           {/* Left Column - Text */}
           <div className="text-center lg:text-left order-2 lg:order-1">
-            <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 md:mb-8 leading-tight">
-              Senior Legal Counsel,{" "}
-              <span className="bg-gradient-to-r from-accent-brand to-accent-purple bg-clip-text text-transparent">
-                On-Demand.
-              </span>
+            <h1 className="font-heading text-2xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 md:mb-8 leading-tight">
+              Legal help that's fast, simple, and stress-free.
             </h1>
             
             <h2 className="font-heading text-xl md:text-2xl lg:text-3xl font-semibold text-foreground mb-4 md:mb-6">
-              Your In-House Team, Without the In-House Cost.
+              Unlimited contracts, reviews, and advice for one predictable monthly fee.
             </h2>
             
             <p className="font-body text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              Our subscription model provides your business with unlimited access to expert legal support 
-              for one, predictable monthly fee. Get the protection and peace of mind you need to grow confidently.
+              No hourly billing. No retainers. Just expert legal help when you need it.
             </p>
             
             <Button size="xl" className="group magnetic-hover ripple-effect touch-target">
-              View The Subscription Plan
+              Get started today
               <div className="ml-2 transition-transform group-hover:translate-x-1">→</div>
             </Button>
           </div>

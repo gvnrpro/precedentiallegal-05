@@ -47,6 +47,9 @@ export default {
 					DEFAULT: 'hsl(var(--accent-brand))',
 					hover: 'hsl(var(--accent-brand-hover))'
 				},
+				'eleven-text': {
+					DEFAULT: 'hsl(var(--eleven-text))'
+				},
 				'accent-purple': {
 					DEFAULT: 'hsl(var(--accent-purple))',
 					hover: 'hsl(var(--accent-purple-hover))'

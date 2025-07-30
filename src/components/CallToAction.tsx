@@ -20,7 +20,7 @@ const CallToAction = () => {
               size="xl" 
               className="group mb-8"
             >
-              <span>Book a Free Consultation</span>
+              <span>Get started today</span>
               <div className="ml-2 transition-transform group-hover:translate-x-1">→</div>
             </Button>
             

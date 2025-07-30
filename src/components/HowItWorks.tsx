@@ -4,23 +4,18 @@ import { useEffect, useState } from 'react'
 const steps = [
   {
     icon: Send,
-    title: "Submit Your Request",
+    title: "Submit your request",
     description: "Send us your legal needs through our simple platform"
   },
   {
     icon: Sparkles,
-    title: "Our Team Works Its Magic", 
-    description: "Senior lawyers analyze and craft your solution"
-  },
-  {
-    icon: RotateCcw,
-    title: "Unlimited Revisions",
-    description: "We refine until it's exactly what you need"
+    title: "We assign a lawyer", 
+    description: "Our team matches you with the right legal expert for your needs"
   },
   {
     icon: FileCheck,
-    title: "Receive Your Document",
-    description: "Get your polished legal work delivered on time"
+    title: "Get your docs",
+    description: "Receive your polished legal work delivered on time"
   }
 ]
 
@@ -78,7 +73,7 @@ const HowItWorks = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12 md:mb-20">
           <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 md:mb-8">
-            Our Simple, Four-Step Process
+            How It Works
           </h2>
         </div>
         
@@ -86,7 +81,7 @@ const HowItWorks = () => {
         <div className="relative max-w-6xl mx-auto">
           <AnimatedPath isVisible={isVisible} />
           
-          <div className="grid gap-8 md:gap-12 lg:grid-cols-4 lg:gap-8">
+          <div className="grid gap-8 md:gap-12 lg:grid-cols-3 lg:gap-8">
             {steps.map((step, index) => {
               const Icon = step.icon
               return (
@@ -104,17 +99,12 @@ const HowItWorks = () => {
                     <div className="lg:hidden absolute left-1/2 transform -translate-x-1/2 top-20 w-px h-16 bg-gradient-to-b from-accent-brand/50 to-accent-purple/50"></div>
                   )}
                   
-                  {/* Icon container with breathing animation */}
-                  <div className="relative mb-6 md:mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-accent-brand to-accent-purple text-white rounded-2xl font-bold text-lg md:text-xl shadow-lg magnetic-hover breathing touch-target group-hover:scale-110 transition-transform duration-300">
-                      <Icon className="w-6 h-6 md:w-8 md:h-8" />
-                    </div>
-                    
-                    {/* Step number overlay */}
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-foreground text-background rounded-full flex items-center justify-center text-sm font-bold">
-                      {index + 1}
-                    </div>
-                  </div>
+                   {/* Icon container with breathing animation */}
+                   <div className="relative mb-6 md:mb-8">
+                     <div className="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-br from-accent-brand to-accent-purple text-white rounded-full font-bold text-xs shadow-lg magnetic-hover breathing touch-target group-hover:scale-110 transition-transform duration-300" style={{width: '24px', height: '24px'}}>
+                       <span className="font-bold">{index + 1}</span>
+                     </div>
+                   </div>
                   
                   <div className="space-y-3 md:space-y-4">
                     <h3 className="font-heading text-lg md:text-xl lg:text-2xl font-semibold text-foreground">
